@@ -1,0 +1,22 @@
+[package]
+name = "heating-controller"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bmp280-ehal = { git = "https://github.com/rustfundev/bmp280.git", branch = "master" }
+cortex-m = { version = "0.7.7", features = ["inline-asm", "critical-section-single-core"] }
+cortex-m-rt = "0.7.5"
+defmt = "0.3.10"
+defmt-rtt = "0.4.1"
+embassy-executor = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88", features = ["arch-cortex-m", "executor-thread", "executor-interrupt", "defmt"] }
+embassy-futures = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88" }
+embassy-stm32 = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88", features = ["stm32f401rc", "defmt", "memory-x", "time-driver-tim4", "exti", "chrono"] }
+embassy-time = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88", features = ["defmt"] }
+heapless = { version = "0.8.0", default-features = false }
+lcd = "0.4.1"
+panic-probe = { version = "0.3.2", features = ["print-defmt"] }
+portable-atomic = { version = "1.10.0", features = ["critical-section", "float"] }
+
+[profile.release]
+debug = 2
