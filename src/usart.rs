@@ -15,13 +15,13 @@ pub async fn run_task(
     usart2: peripherals::USART2,
     rx_pin: peripherals::PA3,
     tx_pin: peripherals::PA2,
+    dma1_ch7: peripherals::DMA1_CH7,
     dma1_ch6: peripherals::DMA1_CH6,
-    dma1_ch5: peripherals::DMA1_CH5,
     temperature: &'static AtomicF64,
     pressure: &'static AtomicF64,
 ) {
     let config = Config::default();
-    let mut usart = Uart::new(usart2, rx_pin, tx_pin, Irqs, dma1_ch6, dma1_ch5, config).unwrap();
+    let mut usart = Uart::new(usart2, rx_pin, tx_pin, Irqs, dma1_ch7, dma1_ch6, config).unwrap();
 
     info!("USART task...");
 

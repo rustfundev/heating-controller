@@ -23,21 +23,27 @@ async fn main(spawner: Spawner) {
         p.USART2,
         p.PA3,
         p.PA2,
+        p.DMA1_CH7,
         p.DMA1_CH6,
-        p.DMA1_CH5,
         &TEMPERATURE,
         &PRESSURE
     )));
 
     unwrap!(spawner.spawn(sensor::run_task(
         p.I2C2,
-        p.PB10,
-        p.PB3,
+        p.PA9,
+        p.PA10,
         &TEMPERATURE,
         &PRESSURE,
         &HEATER_ON
     )));
-    //    unwrap!(spawner.spawn(display::run_task(p.I2C1, p.PB6, p.PB7, &TEMPERATURE, &PRESSURE)));
+    unwrap!(spawner.spawn(display::run_task(
+        p.I2C1,
+        p.PB6,
+        p.PB7,
+        &TEMPERATURE,
+        &PRESSURE
+    )));
     unwrap!(spawner.spawn(button::run_task(p.PA0, p.EXTI0, &HEATER_ON)));
     unwrap!(spawner.spawn(heater::run_task(p.PB12, &HEATER_ON)));
 }

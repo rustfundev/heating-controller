@@ -11,7 +11,7 @@ defmt = "0.3.10"
 defmt-rtt = "0.4.1"
 embassy-executor = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88", features = ["arch-cortex-m", "executor-thread", "executor-interrupt", "defmt"] }
 embassy-futures = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88" }
-embassy-stm32 = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88", features = ["stm32f401rc", "defmt", "memory-x", "time-driver-tim4", "exti", "chrono"] }
+embassy-stm32 = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88", features = ["stm32f303vc", "defmt", "memory-x", "time-driver-tim4", "exti", "chrono"] }
 embassy-time = { git = "https://github.com/embassy-rs/embassy.git", rev = "8a9ca88", features = ["defmt"] }
 heapless = { version = "0.8.0", default-features = false }
 lcd = "0.4.1"

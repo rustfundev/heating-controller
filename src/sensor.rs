@@ -8,8 +8,8 @@ use portable_atomic::{AtomicBool, AtomicF64, Ordering};
 #[embassy_executor::task]
 pub async fn run_task(
     i2c2: peripherals::I2C2,
-    scl_i2c2: peripherals::PB10,
-    sda_i2c2: peripherals::PB3,
+    scl_i2c2: peripherals::PA9,
+    sda_i2c2: peripherals::PA10,
     temp: &'static AtomicF64,
     press: &'static AtomicF64,
     heater_on: &'static AtomicBool,
