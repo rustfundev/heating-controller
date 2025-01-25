@@ -6,13 +6,20 @@ use embassy_time::Timer;
 use portable_atomic::{AtomicBool, Ordering};
 
 #[embassy_executor::task]
-pub async fn run_task(button_pin: peripherals::PA0, extio: peripherals::EXTI0, heater_on: &'static AtomicBool) {
+pub async fn run_task(
+    button_pin: peripherals::PA0,
+    extio: peripherals::EXTI0,
+    heater_on: &'static AtomicBool,
+    button_pressed: &'static AtomicBool,
+) {
     let button = ExtiInput::new(button_pin, extio, Pull::Down);
 
     info!("Press the USER button...");
 
     loop {
         if button.is_high() {
+            // Button is pressed. The heater control is now manual.
+            button_pressed.store(true, Ordering::Relaxed);
             if !heater_on.load(Ordering::Relaxed) {
                 heater_on.store(true, Ordering::Relaxed);
                 info!("Power heater on");

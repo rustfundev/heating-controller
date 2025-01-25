@@ -15,6 +15,7 @@ mod usart;
 static TEMPERATURE: AtomicF64 = AtomicF64::new(0.0);
 static PRESSURE: AtomicF64 = AtomicF64::new(0.0);
 static HEATER_ON: AtomicBool = AtomicBool::new(false);
+static BUTTON_PRESSED: AtomicBool = AtomicBool::new(false);
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -35,9 +36,15 @@ async fn main(spawner: Spawner) {
         p.PB3,
         &TEMPERATURE,
         &PRESSURE,
-        &HEATER_ON
+        &HEATER_ON,
+        &BUTTON_PRESSED
     )));
     //    unwrap!(spawner.spawn(display::run_task(p.I2C1, p.PB6, p.PB7, &TEMPERATURE, &PRESSURE)));
-    unwrap!(spawner.spawn(button::run_task(p.PA0, p.EXTI0, &HEATER_ON)));
+    unwrap!(spawner.spawn(button::run_task(
+        p.PA0,
+        p.EXTI0,
+        &HEATER_ON,
+        &BUTTON_PRESSED
+    )));
     unwrap!(spawner.spawn(heater::run_task(p.PB12, &HEATER_ON)));
 }

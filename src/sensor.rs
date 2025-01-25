@@ -13,6 +13,7 @@ pub async fn run_task(
     temp: &'static AtomicF64,
     press: &'static AtomicF64,
     heater_on: &'static AtomicBool,
+    button_pressed: &'static AtomicBool,
 ) {
     let i2c2 = I2c::new_blocking(i2c2, scl_i2c2, sda_i2c2, Hertz(100_000), Default::default());
     let mut bmp = bmp280_ehal::BMP280::new(i2c2).unwrap();
@@ -36,14 +37,18 @@ pub async fn run_task(
         temp.store(temperature, Ordering::Relaxed);
         press.store(pressure, Ordering::Relaxed);
 
-        match temperature {
-            18.0..22.00 => {
-                heater_on.store(true, Ordering::Relaxed);
+        // If the button was ever pressed, no changes to the heater state
+        // based on the temperature.
+        if !button_pressed.load(Ordering::Relaxed) {
+            match temperature {
+                18.0..22.00 => {
+                    heater_on.store(true, Ordering::Relaxed);
+                }
+                22.5.. => {
+                    heater_on.store(false, Ordering::Relaxed);
+                }
+                _ => (),
             }
-            22.5.. => {
-                heater_on.store(false, Ordering::Relaxed);
-            }
-            _ => (),
         }
 
         info!("Temperature: {}, Pressure: {}", temperature, pressure);
