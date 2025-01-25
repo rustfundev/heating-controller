@@ -42,6 +42,7 @@ async fn main(spawner: Spawner) {
     //    unwrap!(spawner.spawn(display::run_task(p.I2C1, p.PB6, p.PB7, &TEMPERATURE, &PRESSURE)));
     unwrap!(spawner.spawn(button::run_task(
         p.PA0,
+        p.PA5,
         p.EXTI0,
         &HEATER_ON,
         &BUTTON_PRESSED
